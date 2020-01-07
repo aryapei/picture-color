@@ -1,38 +1,79 @@
 .App {
-  text-align: center;
+  padding: 50px;
+  width: 900px;
+  margin: 0 auto;
 }
 
-.App-logo {
-  height: 40vmin;
+.img-container {
+  width: 520px;
+  height: 520px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.15) 0px 8px 16px;
+  border-radius: 2px;
+  float: left;
+}
+
+.color-container {
+  float: right;
+}
+
+/* 屏幕宽度小于700px时清除浮动 左右布局变成上下布局*/
+@media screen and (max-width:700px){
+    .color-container {
+      padding-top: 20px;
+      width: 500px;
+      float: none;
+      clear: both;
+    }
+
+    .color-container .sketch-picker {
+      margin: 0 auto;
+    }
+}
+
+/* 重写react-color的样式：下方色块*/
+.flexbox-fix div span div{
+  /* 方块变成圆形 */
+  border-radius: 50% !important; 
+  /* 去掉难看的边框*/
+  box-shadow: none !important;
+}
+
+/* 父容器相对自己原来的位置定位 */
+.img-container{
+  position: relative;
+}
+/* 子容器相对离得最近的relative父容器(img-container)定位，使两层完全重合*/
+.img-container .under-layer,
+.img-container .upper-layer
+ {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 设置上层的z-index值更高，但是同时设置上层不可点击（这样才可以穿透上层，监听下层的canvas点击事件）*/
+.img-container .upper-layer{
+  z-index: 100;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* 同时设置上层的circle点可以点击，这样上下两层的事件都可以监听到了*/
+.img-container .upper-layer svg circle{
+  pointer-events: auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* 特别地，对于canvas，上下文宽高应该设置成css的两倍 即1000，否则会出现模糊*/
+.under-layer,
+.upper-layer,
+svg,
+canvas 
+ {
+  width: 500px;
+  height: 500px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+svg {
+  overflow: visible !important;
 }
