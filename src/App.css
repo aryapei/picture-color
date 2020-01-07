@@ -77,3 +77,8 @@ canvas
 svg {
   overflow: visible !important;
 }
+
+.info {
+  padding-top: 20px;
+  clear: both;
+}

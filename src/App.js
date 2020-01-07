@@ -19,8 +19,8 @@ class App extends React.Component {
       this.state = {
         color: "pink", // 当前选中的颜色
         data: [        // data-item: {x: , y: , color: , radius: }
-          { x: 100, y: 50, color: "pink", radius: 10},
-          { x: 160, y: 90, color: "cyan", radius: 10}
+          { x: 325, y: 306, color: "pink", radius: 10}, //随便画两个点
+          { x: 163, y: 78, color: "cyan", radius: 10}
         ]       
       };
       this.drawCircle = this.drawCircle.bind(this);
@@ -102,7 +102,7 @@ class App extends React.Component {
                 </svg>
               </div>
           </div>
-          <div class="color-container">
+          <div className="color-container">
               <SketchPicker 
                 width="250px" 
                 presetColors={ presetColors } 
@@ -110,6 +110,13 @@ class App extends React.Component {
                 onChangeComplete={ this.setColor }
               />
          </div>
+         <div className="info">
+            <ol>
+              <li>选择颜色</li>
+              <li>单击图片绘制圆形色块</li>
+              <li>双击色块擦除已有颜色</li> 
+            </ol>
+          </div>
       </div>
     );
   }
