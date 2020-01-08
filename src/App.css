@@ -16,20 +16,6 @@
   float: right;
 }
 
-/* 屏幕宽度小于700px时清除浮动 左右布局变成上下布局*/
-@media screen and (max-width:700px){
-    .color-container {
-      padding-top: 20px;
-      width: 500px;
-      float: none;
-      clear: both;
-    }
-
-    .color-container .sketch-picker {
-      margin: 0 auto;
-    }
-}
-
 /* 重写react-color的样式：下方色块*/
 .flexbox-fix div span div{
   /* 方块变成圆形 */
@@ -81,4 +67,24 @@ svg {
 .info {
   padding-top: 20px;
   clear: both;
+}
+
+/* 屏幕宽度小于700px时清除浮动 左右布局变成上下布局*/
+@media screen and (max-width:700px){
+    .color-container {
+      padding-top: 20px;
+      float: none;
+      clear: both;
+    }
+
+    .color-container,
+    .info {
+      width: 500px;
+    }
+
+    .color-container .sketch-picker,
+    .info ol {
+      width: 250px;
+      margin: 0 auto;
+    }
 }

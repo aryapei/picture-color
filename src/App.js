@@ -113,8 +113,8 @@ class App extends React.Component {
          <div className="info">
             <ol>
               <li>选择颜色</li>
-              <li>单击图片绘制圆形色块</li>
-              <li>双击色块擦除已有颜色</li> 
+              <li>单击图片某个位置进行着色</li>
+              <li>双击绘制好的色块擦除已有着色</li> 
             </ol>
           </div>
       </div>
