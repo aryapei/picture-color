@@ -28,13 +28,18 @@ class App extends React.Component {
     // 声明两个全局变量
     this.ctx = this.canvas.current.getContext('2d');
     this.ctx2 = this.canvas2.current.getContext('2d');
-    // 渲染线图
-    this.img = data.imgs.line;
+    // 渲染线图&初始化数据
+    this.initCanvas(data.imgs.line)
+  }
+
+  initCanvas(img){
+    this.img = img;
     this.fillCanvasByImg(this.ctx, this.img);
     this.fillCanvasByImg(this.ctx2, this.img);
 
+    this.historyCanvas=[];
     this.historyCanvas.push(this.img);
-    this.state.currentStep++;
+    this.state.currentStep=0;
   }
 
   // 给canvas绘制图片
@@ -209,9 +214,9 @@ class App extends React.Component {
     reader.readAsDataURL(file);//转化成base64数据类型
     let me = this;
     reader.onload = function(e){
-        me.img = this.result;
-        me.fillCanvasByImg(me.ctx, me.img);
-        me.fillCanvasByImg(me.ctx2, me.img);
+        me.initCanvas(this.result);
+        // 不要忘了更新视图
+        me.setState({currentStep: me.state.currentStep})
     }
   }
 
