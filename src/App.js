@@ -46,7 +46,7 @@ class App extends React.Component {
   fillCanvasByImg = (ctx, img) => {
     var imgObj = new Image();
     imgObj.src = img;
-    imgObj.setAttribute("crossOrigin",'Anonymous')
+    // imgObj.setAttribute("crossOrigin",'Anonymous')
     imgObj.onload = function(){
       ctx.drawImage(imgObj, 0, 0, data.canvas.width, data.canvas.height);
     }
@@ -188,20 +188,21 @@ class App extends React.Component {
   downloadImg = () => {
     // 合并两个canvas到canvas2
     this.ctx2.drawImage(this.canvas.current, 0, 0);
-    var imgURL = this.canvas2.current.toDataURL('image/png');
+    var imgData = this.canvas2.current.toDataURL({format: 'png', multiplier: 4});
+    var strDataURI = imgData.substr(22, imgData.length);
+    var blob = this.dataURLtoBlob(imgData);
+    var objurl = URL.createObjectURL(blob);
     // 合成完毕还原canvas2
     this.fillCanvasByImg(this.ctx2, this.img)
     
     // 下载图片
-    var MIME_TYPE = "image/png";
-    var dlLink = document.createElement('a');
-    dlLink.download = "picture-color" + new Date().valueOf() + ".jpg";
-    dlLink.href = imgURL;
-    dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+    var link = document.createElement('a');
+    link.download = "picture-color" + new Date().valueOf() + ".png";
+    link.href = objurl;
 
-    document.body.appendChild(dlLink);
-    dlLink.click();
-    document.body.removeChild(dlLink);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   uploadImg = (inputObj) => {
@@ -218,6 +219,15 @@ class App extends React.Component {
         // 不要忘了更新视图
         me.setState({currentStep: me.state.currentStep})
     }
+  }
+
+  dataURLtoBlob = (dataurl) => {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
   }
 
   render() {
