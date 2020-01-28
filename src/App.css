@@ -1,90 +1,146 @@
 .App {
-  padding: 50px;
-  width: 900px;
-  margin: 0 auto;
-}
-
-.img-container {
-  width: 520px;
-  height: 520px;
+  position: relative;
+  width: 640px;
+  height: 600px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.15) 0px 8px 16px;
   border-radius: 2px;
-  float: left;
+  margin: 50px auto;
 }
 
-.color-container {
-  float: right;
-}
-
-/* 重写react-color的样式：下方色块*/
-.flexbox-fix div span div{
-  /* 方块变成圆形 */
-  border-radius: 50% !important; 
-  /* 去掉难看的边框*/
-  box-shadow: none !important;
-}
-
-/* 父容器相对自己原来的位置定位 */
-.img-container{
-  position: relative;
-}
-/* 子容器相对离得最近的relative父容器(img-container)定位，使两层完全重合*/
-.img-container .under-layer,
-.img-container .upper-layer
- {
+canvas{
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 20px;
+  top: 20px;
   width: 500px;
   height: 500px;
 }
 
-/* 设置上层的z-index值更高，但是同时设置上层不可点击（这样才可以穿透上层，监听下层的canvas点击事件）*/
-.img-container .upper-layer{
-  z-index: 100;
-  pointer-events: none;
+canvas.upper-layer{
+  z-index: 1000;
 }
 
-/* 同时设置上层的circle点可以点击，这样上下两层的事件都可以监听到了*/
-.img-container .upper-layer svg circle{
-  pointer-events: auto;
+button {
+  cursor: pointer;
 }
 
-/* 特别地，对于canvas，上下文宽高应该设置成css的两倍 即1000，否则会出现模糊*/
-.under-layer,
-.upper-layer,
-svg,
-canvas 
- {
+/* 去掉chrome和firefox默认的边框*/
+button:focus { outline: none;}
+::-moz-focus-inner {border-color: transparent;}
+
+/* 以下为下方工具栏按钮的样式*/
+.bottom-tools {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
   width: 500px;
+  text-align: center;
+}
+
+.bottom-tools button {
+  color: #f51c73;
+  padding: 0px 10px;
+  margin: 5px;
+  border-radius: 2px;
+  border: solid 1px #f51c73;
+  background-color: #ffffff;
+  height: 30px;
+  font-size: 14px;
+  width: 150px;
+}
+
+.bottom-tools button:hover{
+  background: #f1f1f1;
+}
+
+.bottom-tools button,
+.bottom-tools button img,
+.bottom-tools button span{
+  vertical-align: middle;
+}
+
+.bottom-tools button img{
+  position: relative;
+  left: -5px;
+}
+
+/* 以下为右边工具栏的样式*/
+.right-tools {
+  position: absolute;
+  right: 20px;
+  top: 20px;
   height: 500px;
+  padding-bottom: 10px;
 }
 
-svg {
-  overflow: visible !important;
+.right-tools button{
+  display: block;
+  padding: 0px;
+  border-radius: 2px;
+  background-color: #f5f5f5;
+  border: solid 1px #f5f5f5;
+  color: #f51c73;
 }
 
-.info {
-  padding-top: 20px;
-  clear: both;
+.right-tools button img.active {
+  border: solid 1px #f51c73;
 }
 
-/* 屏幕宽度小于700px时清除浮动 左右布局变成上下布局*/
-@media screen and (max-width:700px){
-    .color-container {
-      padding-top: 20px;
-      float: none;
-      clear: both;
-    }
+.right-tools button:hover {
+  background-color: #e1e1e1;
+}
 
-    .color-container,
-    .info {
-      width: 500px;
-    }
+/* common-tools包括 撤回上一笔 和 撤销撤回上一笔*/
+.common-tools button{
+  display: inline-block;
+}
+.common-tools button:first-child {
+  margin-right: 4px;
+}
+.common-tools button.disabled {
+  background: #ddd;
+}
 
-    .color-container .sketch-picker,
-    .info ol {
-      width: 250px;
-      margin: 0 auto;
-    }
+/* 颜色选择器部分*/
+.color-tools {
+  margin: 16px 0;
+}
+
+.current-color-container {
+  padding: 3px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  border: 1px solid #DDD;
+  cursor: auto;
+  margin-bottom: 5px
+}
+
+.color-tools .current-color-container:hover {
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+.current-color {
+  width: 54px;
+  height: 24px;
+  border-radius: 2px
+}
+
+.popover {
+  position: absolute;
+  zIndex: 2;
+  top: -20px;
+  left: 100px
+}
+
+/*画笔和橡皮部分*/
+.toolbox button{
+  margin-bottom: 5px;
+  width: 60px;
+  height: 60px;
+}
+
+.toolbox button img{
+  width: 58px;
+  height: 58px;
 }
